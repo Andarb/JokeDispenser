@@ -47,6 +47,7 @@ dependencies {
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
 
     implementation project(":jokesource")
+    implementation project(":jokedisplay")
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
