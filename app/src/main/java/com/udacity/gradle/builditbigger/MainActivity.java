@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -22,6 +23,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private CountingIdlingResource mIdlingResource =
+            new CountingIdlingResource("WaitForJoke");
     ProgressBar mLoadingPB;
 
     @Override
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     /* onClick method for the `Tell A Joke` button */
     public void tellAJoke(View view) {
         mLoadingPB.setVisibility(View.VISIBLE);
+
+        // Pause Espresso testing during the network call
+        mIdlingResource.increment();
         new EndpointsAsyncTask().execute(this);
     }
 
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 return myApiService.getJoke().execute().getData();
             } catch (IOException e) {
-                return e.getMessage();
+                return getString(R.string.error_missing_joke);
             }
         }
 
@@ -87,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(context, JokeActivity.class);
             intent.putExtra(JokeActivity.EXTRA_JOKE, result);
             startActivity(intent);
+
+            // Resume Espresso testing
+            mIdlingResource.decrement();
         }
+    }
+
+    /* Retrieve Espresso idling resource for testing purposes */
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingResource;
     }
 }
