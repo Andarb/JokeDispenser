@@ -1,10 +1,11 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
+import com.github.andarb.jokedisplay.JokeActivity;
 import com.github.andarb.jokesource.JokeSource;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -26,7 +27,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellAJoke(View view) {
+        // Retrieve a joke from our Java library
         JokeSource jokeSource = new JokeSource();
-        Toast.makeText(this, jokeSource.retrieveJoke(), Toast.LENGTH_LONG).show();
+        String joke = jokeSource.retrieveJoke();
+
+        // Pass on the joke to our Android library
+        Intent intent = new Intent(this, JokeActivity.class);
+        intent.putExtra(JokeActivity.EXTRA_JOKE, joke);
+        startActivity(intent);
     }
 }
