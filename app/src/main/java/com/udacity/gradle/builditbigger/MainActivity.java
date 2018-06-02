@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.github.andarb.jokedisplay.JokeActivity;
 import com.google.android.gms.ads.AdRequest;
@@ -21,10 +22,14 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    ProgressBar mLoadingPB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mLoadingPB = findViewById(R.id.joke_loading_pb);
 
         // Load a banner with adverts
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* onClick method for the `Tell A Joke` button */
     public void tellAJoke(View view) {
+        mLoadingPB.setVisibility(View.VISIBLE);
         new EndpointsAsyncTask().execute(this);
     }
 
@@ -75,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            mLoadingPB.setVisibility(View.GONE);
+
             // Pass the joke to the Android library
             Intent intent = new Intent(context, JokeActivity.class);
             intent.putExtra(JokeActivity.EXTRA_JOKE, result);

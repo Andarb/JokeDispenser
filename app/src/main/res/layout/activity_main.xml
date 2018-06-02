@@ -29,4 +29,11 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
 
+    <ProgressBar
+        android:id="@+id/joke_loading_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
 </RelativeLayout>
