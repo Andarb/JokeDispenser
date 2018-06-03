@@ -6,12 +6,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.github.andarb.jokedisplay.JokeActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -23,8 +26,11 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private InterstitialAd mInterstitialAd;
+
     private CountingIdlingResource mIdlingResource =
             new CountingIdlingResource("WaitForJoke");
+
     ProgressBar mLoadingPB;
 
     @Override
@@ -34,8 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
         mLoadingPB = findViewById(R.id.joke_loading_pb);
 
-        // Load a banner with adverts
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        // Load an Interstitial ad
+        MobileAds.initialize(this,"ca-app-pub-3940256099942544~3347511713");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        // Load a banner ad
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
@@ -96,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
 
             // Resume Espresso testing
             mIdlingResource.decrement();
+
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            }
         }
     }
 
