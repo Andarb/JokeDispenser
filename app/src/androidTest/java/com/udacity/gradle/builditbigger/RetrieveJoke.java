@@ -1,9 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
-import android.support.test.espresso.Espresso;
+import android.content.res.Resources;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.idling.CountingIdlingResource;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.github.andarb.jokedisplay.JokeActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,22 +16,20 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
 
 
 /**
- * Test clicking on the first recipe downloaded from JSON.
- * Clicking on it should open a list of steps and ingredients for that recipe.
+ * Clicking on a `Tell A Joke` button should retrieve a joke from GCE.
  */
 @RunWith(AndroidJUnit4.class)
 public class RetrieveJoke {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public IntentsTestRule<MainActivity> mActivityTestRule =
+            new IntentsTestRule<>(MainActivity.class);
 
     private CountingIdlingResource mIdlingResource;
 
@@ -39,21 +40,23 @@ public class RetrieveJoke {
         // Retrieve the initialized idling resource from MainActivity
         mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
 
-        Espresso.registerIdlingResources(mIdlingResource);
+        IdlingRegistry.getInstance().register(mIdlingResource);
     }
 
     @Test
     public void clickJokeButton_GetJoke() {
+        Resources resources = mActivityTestRule.getActivity().getResources();
+        String jokeError = resources.getString(R.string.error_missing_joke);
+
         onView(withId(R.id.get_joke_button))
                 .perform(click());
 
-        onView(withId(R.id.joke_text_view))
-                .check(matches(not(withText(R.string.error_missing_joke))));
+        intended(hasExtra(JokeActivity.EXTRA_JOKE, jokeError));
     }
 
     // Unregister the idling resource after the test
     @After
     public void unregisterIdlingResource() {
-        Espresso.unregisterIdlingResources(mIdlingResource);
+        IdlingRegistry.getInstance().unregister(mIdlingResource);
     }
 }
