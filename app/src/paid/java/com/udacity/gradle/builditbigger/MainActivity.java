@@ -69,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
             context = params[0];
 
-            return getString(R.string.error_missing_joke);
+            try {
+                return myApiService.getJoke().execute().getData();
+            } catch (IOException e) {
+                return getString(R.string.error_missing_joke);
+            }
         }
 
         @Override

@@ -19,10 +19,12 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.core.IsNot.not;
 
 
 /**
  * Clicking on a `Tell A Joke` button should retrieve a joke from GCE.
+ * A predefined error message is sent instead of the joke if there is a problem.
  */
 @RunWith(AndroidJUnit4.class)
 public class RetrieveJoke {
@@ -46,12 +48,12 @@ public class RetrieveJoke {
     @Test
     public void clickJokeButton_GetJoke() {
         Resources resources = mActivityTestRule.getActivity().getResources();
-        String jokeError = resources.getString(R.string.error_missing_joke);
+        String jokeMissing = resources.getString(R.string.error_missing_joke);
 
         onView(withId(R.id.get_joke_button))
                 .perform(click());
 
-        intended(hasExtra(JokeActivity.EXTRA_JOKE, jokeError));
+        intended(not(hasExtra(JokeActivity.EXTRA_JOKE, jokeMissing)));
     }
 
     // Unregister the idling resource after the test
