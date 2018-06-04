@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -47,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         // Load a banner ad
-        AdView mAdView = findViewById(R.id.adView);
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
     }
 
     /* onClick method for the `Tell A Joke` button */
@@ -109,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             // Resume Espresso testing
             mIdlingResource.decrement();
 
+            // Load a fullscreen ad covering the joke
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             }
