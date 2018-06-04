@@ -71,3 +71,14 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 }
+
+task testGCE {
+    description "Starts GCE module, runs our joke test, and shuts down the server."
+    group "Verification"
+
+    dependsOn ":backend:appengineStart"
+    dependsOn 'connectedCheck'
+    finalizedBy ":backend:appengineStop"
+
+    connectedCheck.mustRunAfter ":backend:appengineStart"
+}
