@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JokeDisplay</string>
+    <string name="a11y_smiley_face">Smiling emoji.</string>
 </resources>

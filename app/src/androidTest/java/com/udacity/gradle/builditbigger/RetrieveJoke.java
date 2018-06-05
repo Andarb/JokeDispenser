@@ -25,7 +25,7 @@ import static org.hamcrest.core.IsNot.not;
 
 
 /**
- * Clicking on a `Tell A Joke` button should retrieve a joke from GCE.
+ * Clicking on a `Make me smile` button should retrieve a joke from GCE.
  * A predefined error message is sent instead of the joke if there is a problem.
  */
 @RunWith(AndroidJUnit4.class)
