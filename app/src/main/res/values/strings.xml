@@ -2,6 +2,5 @@
     <string name="app_name">JokeDispenser</string>
     <string name="button_text">Make me smile</string>
     <string name="a11y_anticipation">Anticipating emoji.</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="error_missing_joke">Sorry, no jokes found.</string>
 </resources>
