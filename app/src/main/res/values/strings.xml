@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">JokeDispenser</string>
-    <string name="instructions">Press the button for a delicious joke!</string>
-    <string name="button_text">Tell A Joke</string>
-    <string name="action_settings">Settings</string>
+    <string name="button_text">Make me smile</string>
+    <string name="a11y_anticipation">Anticipating emoji.</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="error_missing_joke">Sorry, no jokes found.</string>
 </resources>
