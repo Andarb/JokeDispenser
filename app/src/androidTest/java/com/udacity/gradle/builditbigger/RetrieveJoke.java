@@ -17,8 +17,10 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
 
 
@@ -53,7 +55,9 @@ public class RetrieveJoke {
         onView(withId(R.id.get_joke_button))
                 .perform(click());
 
-        intended(not(hasExtra(JokeActivity.EXTRA_JOKE, jokeMissing)));
+        intended(allOf(
+                hasComponent(JokeActivity.class.getName()),
+                not(hasExtra(JokeActivity.EXTRA_JOKE, jokeMissing))));
     }
 
     // Unregister the idling resource after the test
