@@ -6,7 +6,7 @@ import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.github.andarb.jokedisplay.JokeActivity;
+import com.andarb.jokedisplay.JokeActivity;
 
 import org.junit.After;
 import org.junit.Before;
