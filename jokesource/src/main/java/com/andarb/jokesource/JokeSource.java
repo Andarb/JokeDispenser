@@ -1,4 +1,4 @@
-package com.github.andarb.jokesource;
+package com.andarb.jokesource;
 
 import java.util.Random;
 

@@ -1,12 +1,14 @@
-package com.github.andarb.jokedisplay;
+package com.andarb.jokedisplay;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.andarb.jokedisplay.R;
+
 public class JokeActivity extends AppCompatActivity {
 
-    public static final String EXTRA_JOKE = "com.github.andarb.JOKE";
+    public static final String EXTRA_JOKE = "com.andarb.JOKE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
